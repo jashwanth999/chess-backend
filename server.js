@@ -36,6 +36,10 @@ io.on("connection", (socket) => {
     console.log("user disconnected", socket.id);
   });
 });
+app.get("/", (req, res) => {
+  res.send("GET Request Called");
+});
+
 server.listen(3001, () => {
   console.log("server is running");
 });
