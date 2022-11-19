@@ -3,12 +3,7 @@ const app = express();
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
-app.use(
-  cors({
-    origin: "https://chess-frontend.netlify.app",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 const server = http.createServer(app);
 
