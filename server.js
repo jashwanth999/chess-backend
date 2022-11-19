@@ -3,13 +3,18 @@ const app = express();
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://chess-web-jash.vercel.app/",
+    origin: "https://chess-web-jash.vercel.app",
     methods: ["GET", "POST"],
   },
 });
