@@ -6,20 +6,29 @@ const { Server } = require("socket.io");
 app.use(cors());
 
 const server = http.createServer(app);
+//https://chess-frontend.netlify.app
 
 const io = new Server(server, {
   cors: {
-    origin: "https://chess-frontend.netlify.app",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 
-io.on("connection", (socket) => {
-  let allData = [];
+var roomIDTOUsers = {};
 
+io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
-    socket.join(data);
+    socket.join(data.roomId);
+
+    if (!roomIDTOUsers[data.roomId]) roomIDTOUsers[data.roomId] = [];
+
+    roomIDTOUsers[data.roomId].push(data);
+  });
+
+  socket.on("get_data_room", (data) => {
+    socket.emit("recieve_users_to_room", roomIDTOUsers[data.roomid]);
   });
 
   socket.on("send_data", (data) => {
