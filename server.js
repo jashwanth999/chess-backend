@@ -36,6 +36,10 @@ io.on("connection", (socket) => {
     socket.to(data.roomid).emit("recieve_room_data", data);
   });
 
+  socket.on("send_message", (data) => {
+    socket.to(data.roomId).emit("recieve_chat_message", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
   });
