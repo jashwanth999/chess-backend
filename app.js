@@ -35,6 +35,8 @@ app.get("/", (req, res) => {
   res.send("GET Request Called");
 });
 
-server.listen(3001, () => {
-  console.log("server is running");
-});
+server.listen(process.env.PORT || 3001);
+
+// server.listen(3001, () => {
+//   console.log("server is running");
+// });
