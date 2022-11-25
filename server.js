@@ -45,11 +45,8 @@ io.on("connection", (socket) => {
   });
 });
 app.get("/", (req, res) => {
-  res.send("GET Request Called");
+  res.send("api is running");
 });
 
 server.listen(process.env.PORT || 3001);
 
-// server.listen(3001, () => {
-//   console.log("server is running");
-// });
