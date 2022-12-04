@@ -18,6 +18,7 @@ const io = new Server(server, {
 var roomIDTOUsers = {};
 
 io.on("connection", (socket) => {
+ 
   socket.on("join_room", (data) => {
     socket.join(data.roomId);
 
@@ -39,6 +40,10 @@ io.on("connection", (socket) => {
     socket.to(data.roomId).emit("recieve_chat_message", data);
   });
 
+  socket.on("send_check_mate_data", (data) => {
+    socket.to(data.roomId).emit("recieve_check_mate_data", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
   });
@@ -48,4 +53,3 @@ app.get("/", (req, res) => {
 });
 
 server.listen(process.env.PORT || 3001);
-
