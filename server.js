@@ -15,24 +15,35 @@ const io = new Server(server, {
   },
 });
 
-var roomIDTOUsers = {};
+var waitingUsers = [];
 
 io.on("connection", (socket) => {
- 
   socket.on("join_room", (data) => {
-    socket.join(data.roomId);
+    if (waitingUsers.length >= 1) {
+      let user1 = waitingUsers.pop();
 
-    if (!roomIDTOUsers[data.roomId]) roomIDTOUsers[data.roomId] = [];
+      let user2 = { username: data.username, socket: socket };
 
-    roomIDTOUsers[data.roomId].push(data);
-  });
+      let roomId = user1.socket.id + "-" + user2.socket.id;
 
-  socket.on("get_data_room", (data) => {
-    socket.emit("recieve_users_to_room", roomIDTOUsers[data.roomid]);
+      user1.socket.join(roomId);
+
+      user2.socket.join(roomId);
+
+      let users = [
+        { username: user1.username, roomId: roomId, color: "b" },
+        { username: user2.username, roomId: roomId, color: "w" },
+      ];
+
+      user1.socket.to(roomId).emit("recieve_room_users", users);
+
+      user2.socket.to(roomId).emit("recieve_room_users", users);
+    } else {
+      waitingUsers.push({ username: data.username, socket: socket });
+    }
   });
 
   socket.on("send_data", (data) => {
-    // console.log(data);
     socket.to(data.roomid).emit("recieve_room_data", data);
   });
 
@@ -45,6 +56,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    
     console.log("user disconnected", socket.id);
   });
 });
