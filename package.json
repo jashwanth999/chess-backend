@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon server.js"
   },
@@ -13,7 +14,8 @@
     "express": "^4.18.2",
     "mongoose": "^6.7.5",
     "nodemon": "^2.0.20",
-    "socket.io": "^4.5.4"
+    "socket.io": "^4.5.3",
+    "urid": "^1.1.0"
   },
   "engines": {
     "node": "14.x"
