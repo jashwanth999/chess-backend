@@ -1,8 +1,10 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import { Server } from "socket.io";
+import http from "http";
+import { mapUsersToRoom } from "./src/controllers/mapUsersToRoom.js";
+
 const app = express();
-const cors = require("cors");
-const http = require("http");
-const { Server } = require("socket.io");
 app.use(cors());
 
 const server = http.createServer(app);
@@ -19,28 +21,8 @@ var waitingUsers = [];
 
 io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
-    if (waitingUsers.length >= 1) {
-      let user1 = waitingUsers.pop();
-
-      let user2 = { username: data.username, socket: socket };
-
-      let roomId = user1.socket.id + "-" + user2.socket.id;
-
-      user1.socket.join(roomId);
-
-      user2.socket.join(roomId);
-
-      let users = [
-        { username: user1.username, roomId: roomId, color: "b" },
-        { username: user2.username, roomId: roomId, color: "w" },
-      ];
-
-      user1.socket.to(roomId).emit("recieve_room_users", users);
-
-      user2.socket.to(roomId).emit("recieve_room_users", users);
-    } else {
-      waitingUsers.push({ username: data.username, socket: socket });
-    }
+    waitingUsers.push({ username: data.username, socket: socket });
+    waitingUsers = mapUsersToRoom(waitingUsers);
   });
 
   socket.on("send_data", (data) => {
@@ -56,7 +38,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    
     console.log("user disconnected", socket.id);
   });
 });
