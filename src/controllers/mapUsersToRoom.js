@@ -1,4 +1,5 @@
-import urid from "urid";
+import urid  from "urid";
+
 export const mapUsersToRoom = (waitingUsers) => {
   while (waitingUsers.length >= 2) {
     let user1 = waitingUsers.pop();
@@ -37,5 +38,4 @@ export const mapUsersToRoom = (waitingUsers) => {
 
   return waitingUsers;
 };
-
 

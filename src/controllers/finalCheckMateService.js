@@ -1,4 +1,4 @@
-import { pieceValidMethodMap } from "../services/validMoveService";
+import { pieceValidMethodMap } from "./validMoveService.js";
 
 export const checkMateStopFromOTherPiece = (
   pieces,
@@ -9,7 +9,6 @@ export const checkMateStopFromOTherPiece = (
 ) => {
   let rowOrColumnAttack = false;
   let diagonalAttack = false;
-
   let knightAttack = false;
 
   if (
@@ -448,6 +447,5 @@ const allDirTraverse = (
       }
     }
   }
-
   return true;
 };

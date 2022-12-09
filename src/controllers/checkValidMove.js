@@ -1,10 +1,14 @@
-import { checkMateStopFromOTherPiece } from "../controllers/finalCheckMateService";
-import {
-  isValidMoveForCheckMate,
-  pieceValidMethodMap,
-} from "./validMoveService";
+import { pieceValidMethodMap } from "./validMoveService.js";
 
-export const checkValidMoves = (
+import { isValidMoveForCheckMate } from "./validMoveService.js";
+
+import { callingOpponentForCheckMate } from "./checkMateService.js";
+
+import {
+  kingAbleToMoveAfterCheckMate,
+  checkMateStopFromOTherPiece,
+} from "./finalCheckMateService.js";
+export const dropValidMove = (
   pos,
   grabpos,
   posOp,
@@ -243,7 +247,7 @@ export const checkValidMoves = (
 
       // message to opponent highlight the prev move and current move
 
-      socket.emit("send_room_data", {
+      socket.emit("recieve_room_data", {
         roomid,
         pieces,
         piecesOpponent,
@@ -257,7 +261,7 @@ export const checkValidMoves = (
         },
       });
 
-      socket.to(roomid).emit("send_room_data", {
+      socket.to(roomid).emit("recieve_room_data", {
         roomid,
         pieces,
         piecesOpponent,
@@ -489,7 +493,7 @@ export const checkValidMoves = (
 
       // message to opponent highlight the prev and current pos
 
-      socket.emit("send_room_data", {
+      socket.emit("recieve_room_data", {
         roomid,
         pieces,
         piecesOpponent,
@@ -503,7 +507,7 @@ export const checkValidMoves = (
         },
       });
 
-      socket.to(roomid).emit("send_room_data", {
+      socket.to(roomid).emit("recieve_room_data", {
         roomid,
         pieces,
         piecesOpponent,
