@@ -3,6 +3,7 @@ import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
 import { mapUsersToRoom } from "./src/controllers/mapUsersToRoom.js";
+import { checkValidMoves } from "./src/services/checkValidMove";
 
 const app = express();
 app.use(cors());
@@ -26,7 +27,39 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_data", (data) => {
-    socket.to(data.roomid).emit("recieve_room_data", data);
+    // socket.to(data.roomid).emit("recieve_room_data", data);
+
+    const {
+      posOp,
+      grabposOp,
+      users,
+      user,
+      pieces,
+      piecesOpponent,
+      kingPos,
+      kingPosOp,
+      socket,
+      myTurn,
+      killedPieces,
+      opponentKilledPieces,
+      roomid,
+    } = data;
+
+    checkValidMoves(
+      posOp,
+      grabposOp,
+      users,
+      user,
+      pieces,
+      piecesOpponent,
+      kingPos,
+      kingPosOp,
+      socket,
+      myTurn,
+      killedPieces,
+      opponentKilledPieces,
+      roomid
+    );
   });
 
   socket.on("send_message", (data) => {
