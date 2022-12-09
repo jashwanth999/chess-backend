@@ -3,11 +3,27 @@ import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
 import { mapUsersToRoom } from "./src/controllers/mapUsersToRoom.js";
+import mongoose from "mongoose";
+import "./src/models/UserSchema.js";
+
+const User = mongoose.model("users");
 
 const app = express();
 app.use(cors());
 
 const server = http.createServer(app);
+
+mongoose
+  .connect("mongodb://localhost:27017/local", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((res) => {
+    console.log("DB Connected!");
+  })
+  .catch((err) => {
+    console.log(Error, err.message);
+  });
 
 const io = new Server(server, {
   cors: {
@@ -41,8 +57,21 @@ io.on("connection", (socket) => {
     console.log("user disconnected", socket.id);
   });
 });
-app.get("/", (req, res) => {
-  res.send("api is running");
+app.post("/send", async (req, res) => {
+  let user = new User({
+    username: "jash",
+  });
+
+  
+  await user.save();
+
+  
+
+  res.json({ user: user });
+});
+app.get("/", async (req, res) => {
+  await User.find().then((result) => res.json({ post: result }));
+  // res.send("api is running");
 });
 
 server.listen(process.env.PORT || 3001);
