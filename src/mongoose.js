@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 mongoose
-  .connect("mongodb+srv://jashwanth:jashwanthbj9@chess.pww3bsh.mongodb.net/?retryWrites=true&w=majority", {
+  .connect("mongodb+srv://jashwanth:jashwanthbj9@chess.pww3bsh.mongodb.net/?retryWrites=true&w=majority/test", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
