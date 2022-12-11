@@ -16,7 +16,6 @@ mongoose
 
 const connectDatabase = async () => {
   try {
-    mongoose.set("useNewUrlParser", true);
     await mongoose.connect(
       "mongodb+srv://jashwanth:jashwanthbj9@chess.pww3bsh.mongodb.net/?retryWrites=true"
     );
