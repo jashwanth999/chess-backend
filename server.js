@@ -50,6 +50,10 @@ io.on("connection", (socket) => {
     socket.join(data.roomId);
   });
 
+  socket.on("leave_room", (data) => {
+    socket.leave(data.roomId);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected", socket.id);
   });

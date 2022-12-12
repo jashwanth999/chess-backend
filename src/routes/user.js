@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import { updateUser } from "../controllers/userController.js";
 const userRouter = express.Router();
 import "../models/UserSchema.js";
 const User = mongoose.model("users");
@@ -86,6 +87,17 @@ userRouter.post("/get-user", async (req, res) => {
       message: e.message,
       status: 400,
     });
+  }
+});
+
+userRouter.post("/update-user", async (req, res) => {
+  try {
+    
+    updateUser(req.body);
+
+    res.json({ message: "message updated successfully", status: 200 });
+  } catch (e) {
+    res.json({ message: e.message, status: 400 });
   }
 });
 
